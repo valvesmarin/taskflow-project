@@ -147,16 +147,18 @@ main {
   }
 
   body.dark-mode {
-    background: #1a202c;
+    background: #f2024f;
     color: #e5e7eb;
-
+  }
     body.dark-mode header {
-      background: #2d3748;
+      background: #2c2f38;
       color: #f3f4f6;
+    }
 
     body.dark-mode aside {
-      background: #2d3748;
-      color:#cbd5e1;
+      background: #3a3c44;
+      color:#e5e7eb
+    }
 
       body.dark-mode .task {
           background: #3a3c44;  
@@ -165,10 +167,6 @@ main {
         }
         body.dark-mode .badge.high { background: #f56565; } 
         body.dark-mode .badge.medium { background: #f6ad55; }
-        body.dark-mode .badge.low { background: #48bb78; }
-          ;
-          background: #e53e3e;
-        } 
-    }
-  }
+        body.dark-mode .badge.low { background: #48bb78; } 
+    
 }
