@@ -1,18 +1,17 @@
 :root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --bg: #f3f4f6;
-  --card: #ffffff;
-  --text: #1f2937;
-  --muted: #6b7280;
+  --primary: #7f9cf5;      
+  --primary-dark: #667eea;
+  --bg: #f0f4f8;           
+  --card: #ffffff;          
+  --text: #1f2937;        
+  --muted: #4a5568;         
 
-  --high: #ef4444;
-  --medium: #f59e0b;
-  --low: #10b981;
+  --high: #f56565;          
+  --medium: #f6ad55;        
+  --low: #48bb78;           
 
-  --radius: 12px;
-  --spacing: 20px;
-
+  --radius: 12px;           
+  --spacing: 20px;              
   --font-main: 'Segoe UI', sans-serif;
 }
 
