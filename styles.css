@@ -165,6 +165,7 @@ main {
           color: #e5e7eb;
 
         }
+        
         body.dark-mode .badge.high { background: #f56565; } 
         body.dark-mode .badge.medium { background: #f6ad55; }
         body.dark-mode .badge.low { background: #48bb78; } 
