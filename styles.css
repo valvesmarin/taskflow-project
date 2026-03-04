@@ -1,6 +1,7 @@
 /*Variáveis Globais*/
 :root {
   --primary: #7f9cf5;      
+  --primary-dark: #667eea;
   --bg: #f0f4f8;           
   --card: #ffffff;         
   --text: #1f2937;          
@@ -80,7 +81,7 @@ main {
   padding: var(--spacing);
 }
 
-/*CARTÕES DE TAREFAS */
+/* CARTÕES DE TAREFAS */
 .task {
   display: flex;
   align-items: center;
@@ -131,7 +132,7 @@ main {
 .badge.medium { background: var(--medium); }
 .badge.low { background: var(--low); }
 
-/*Estado concluído com transição suave */
+/*Estado concluído */
 .task.completed {
   opacity: 0.85;
   transform: scale(0.97);
@@ -140,6 +141,75 @@ main {
 .task.completed .title {
   text-decoration: line-through;
   color: var(--muted);
+}
+
+/* NOVO: Formulário de adicionar tarefa*/
+#task-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+#task-form input,
+#task-form select,
+#task-form button {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius);
+  font-size: 15px;
+}
+
+#task-form input {
+  flex: 2;
+  min-width: 220px;
+}
+
+#task-form select {
+  flex: 1;
+  min-width: 140px;
+}
+
+#task-form button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 120px;
+  transition: background 0.3s;
+}
+
+#task-form button:hover {
+  background: var(--primary-dark);
+}
+
+/* Botão de eliminar */
+.delete-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Campo de busca */
+#search-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius);
+  font-size: 15px;
 }
 
 /*Dark Mode*/
@@ -162,6 +232,14 @@ body.dark-mode .task {
 body.dark-mode .category,
 body.dark-mode .task.completed .title {
   color: #9ca3af;
+}
+
+body.dark-mode #task-form input,
+body.dark-mode #task-form select,
+body.dark-mode #search-input {
+  background: #3a3c44;
+  border-color: #4b5563;
+  color: #e5e7eb;
 }
 
 /*Responsividade*/
