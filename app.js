@@ -27,7 +27,17 @@ function createTaskElement(task) {
       <span class="category">${task.category}</span>
     </div>
     <span class="badge ${task.priority}">${task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Media' : 'Baja'}</span>
-    <button class="delete-btn">🗑️</button>
+    <button class="delete-btn">🗑️</button>   
+    
+    .delete-btn {
+  background: none;
+  border: none;
+  display: flex;               
+  align-items: center;         
+  justify-content: center;     
+  line-height: 1;              
+  padding: 0;                 
+}
   `;
 
   // Checkbox
@@ -47,7 +57,7 @@ function createTaskElement(task) {
   return div;
 }
 
-// Renderizar lista (com filtro opcional)
+// Renderizar lista 
 function renderTasks(filterText = '') {
   const container = document.getElementById('task-list');
   container.innerHTML = '';
@@ -79,7 +89,7 @@ document.getElementById('task-form').addEventListener('submit', (e) => {
     completed: false
   };
 
-  tasks.unshift(newTask); // adiciona no topo
+  tasks.unshift(newTask); 
   saveTasks();
   renderTasks();
 
@@ -89,7 +99,7 @@ document.getElementById('task-form').addEventListener('submit', (e) => {
 
   // Filtro de busca
 document.getElementById('search-input').addEventListener('input', (e) => {
-  renderTasks(e.target.value);   // atualiza em tempo real enquanto você digita
+  renderTasks(e.target.value);   
 });
 
 // Dark mode (mantido)
