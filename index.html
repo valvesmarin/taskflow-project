@@ -5,49 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PulseTasks</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Opcional: fonte Inter do Google Fonts para melhor tipografia -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen font-sans">
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen font-sans antialiased">
 
-  <header class="bg-blue-600 dark:bg-blue-700 text-white py-5 px-6 flex items-center justify-between shadow-md">
-    <h1 class="text-3xl font-bold">PulseTasks</h1>
-    <button id="dark-mode-toggle" class="bg-white/20 hover:bg-white/30 px-6 py-2.5 rounded-2xl text-sm font-medium transition-all">
-      Modo Oscuro
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-800 dark:to-blue-900 text-white py-5 px-6 flex items-center justify-between shadow-lg">
+    <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">PulseTasks</h1>
+    
+    <!-- Botão toggle dark mode (com ícones sol/lua) -->
+    <button id="dark-mode-toggle" class="btn bg-white/15 hover:bg-white/25 active:bg-white/30 text-white flex items-center gap-2 px-5 py-2.5 rounded-2xl transition-all duration-300 focus:ring-blue-300">
+      <span id="theme-icon" class="text-lg">🌙</span>
+      <span id="theme-text">Modo Oscuro</span>
     </button>
   </header>
 
+  <!-- Layout principal -->
   <div class="flex min-h-[calc(100vh-80px)]">
 
-    <aside class="w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 p-6 hidden md:block">
-      <h3 class="text-lg font-semibold mb-5 text-zinc-700 dark:text-zinc-300">Categorías</h3>
+    <!-- Sidebar (categorias) – hidden em mobile -->
+    <aside class="w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 p-6 hidden lg:block">
+      <h3 class="text-lg font-semibold mb-6 text-zinc-800 dark:text-zinc-200">Categorías</h3>
       <ul class="space-y-2">
-        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">Trabajo</li>
-        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">Personal</li>
-        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">Estudio</li>
+        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors duration-200 font-medium text-zinc-700 dark:text-zinc-300">Trabajo</li>
+        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors duration-200 font-medium text-zinc-700 dark:text-zinc-300">Personal</li>
+        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors duration-200 font-medium text-zinc-700 dark:text-zinc-300">Estudio</li>
       </ul>
     </aside>
 
-    <main class="flex-1 p-8">
-      <form id="task-form" class="flex flex-col sm:flex-row gap-4 mb-10">
-        <input id="task-input" type="text" placeholder="Nueva tarea..." class="flex-1 px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl focus:outline-none focus:border-blue-500">
-        <select id="category-select" class="px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl">
+    <!-- Main content -->
+    <main class="flex-1 p-6 md:p-8 lg:p-10">
+      <!-- Formulário de nova tarefa -->
+      <form id="task-form" class="flex flex-col sm:flex-row flex-wrap gap-4 mb-10">
+        <input 
+          id="task-input" 
+          type="text" 
+          placeholder="Nueva tarea..." 
+          class="flex-1 min-w-[200px] px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl input-focus shadow-sm"
+          required
+        >
+        <select id="category-select" class="min-w-[140px] px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl input-focus shadow-sm">
           <option value="Trabajo">Trabajo</option>
           <option value="Personal">Personal</option>
           <option value="Estudio">Estudio</option>
         </select>
-        <select id="priority-select" class="px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl">
+        <select id="priority-select" class="min-w-[140px] px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl input-focus shadow-sm">
           <option value="high">Alta</option>
           <option value="medium">Media</option>
           <option value="low">Baja</option>
         </select>
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-3xl font-medium transition-all">Añadir Tarea</button>
+        <button type="submit" class="btn bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-md hover:shadow-lg focus:ring-blue-400 min-w-[140px]">
+          Añadir Tarea
+        </button>
       </form>
 
-      <input id="search-input" type="text" placeholder="Buscar tarefas..." class="w-full mb-8 px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl focus:outline-none focus:border-blue-500">
+      <!-- Busca -->
+      <input 
+        id="search-input" 
+        type="text" 
+        placeholder="Buscar tareas..." 
+        class="w-full mb-8 px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl input-focus shadow-sm"
+      >
 
-      <section id="task-list" class="space-y-4"></section>
+      <!-- Lista de tarefas -->
+      <section id="task-list" class="space-y-4 md:space-y-5"></section>
     </main>
   </div>
 
   <script src="app.js"></script>
+
+  <!-- Script extra para o toggle ficar mais bonito -->
+  <script>
+    const toggle = document.getElementById("dark-mode-toggle");
+    const icon = document.getElementById("theme-icon");
+    const text = document.getElementById("theme-text");
+
+    function updateToggle() {
+      const isDark = document.documentElement.classList.contains("dark");
+      icon.textContent = isDark ? "☀️" : "🌙";
+      text.textContent = isDark ? "Modo Claro" : "Modo Oscuro";
+    }
+
+    toggle.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+      updateToggle();
+      // Salvar preferência no localStorage
+      localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+    });
+
+    // Carregar tema salvo ou preferência do sistema
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+    }
+    updateToggle();
+  </script>
 </body>
 </html>
