@@ -1,52 +1,73 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PulseTasks</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen font-sans">
 
-  <header>
-    <h1>PulseTasks</h1>
-    <button id="dark-mode-toggle">Modo Oscuro</button>
+  <!-- HEADER -->
+  <header class="bg-blue-600 dark:bg-blue-700 text-white py-5 px-6 flex items-center justify-between shadow-md">
+    <h1 class="text-3xl font-bold tracking-tight">PulseTasks</h1>
+    <button id="dark-mode-toggle"
+            class="bg-white/20 hover:bg-white/30 px-6 py-2.5 rounded-2xl text-sm font-medium transition-all flex items-center gap-2 active:scale-95">
+      Modo Oscuro
+    </button>
   </header>
 
-  <div class="layout">
-    <aside>
-      <h3>Categorías</h3>
-      <ul>
-        <li>Trabajo</li>
-        <li>Personal</li>
-        <li>Estudio</li>
+  <div class="flex min-h-[calc(100vh-80px)]">
+
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 p-6">
+      <h3 class="text-lg font-semibold mb-5 text-zinc-700 dark:text-zinc-300">Categorías</h3>
+      <ul class="space-y-1">
+        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">Trabajo</li>
+        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">Personal</li>
+        <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors">Estudio</li>
       </ul>
     </aside>
 
-    <main>
-      
-      /*Formulário*/
+    <!-- MAIN -->
+    <main class="flex-1 p-8">
 
-      <form id="task-form">
-        <input type="text" id="task-input" placeholder="Nueva tarea..." required>
-        <select id="category-select">
+      <!-- FORMULÁRIO -->
+      <form id="task-form" class="flex gap-4 mb-10 flex-wrap">
+        <input id="task-input" 
+               type="text" 
+               placeholder="Nueva tarea..." 
+               class="flex-1 min-w-[280px] px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl focus:outline-none focus:border-blue-500 transition-all">
+
+        <select id="category-select" 
+                class="px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl focus:outline-none">
           <option value="Trabajo">Trabajo</option>
           <option value="Personal">Personal</option>
           <option value="Estudio">Estudio</option>
         </select>
-        <select id="priority-select">
+
+        <select id="priority-select" 
+                class="px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl focus:outline-none">
           <option value="high">Alta</option>
           <option value="medium">Media</option>
           <option value="low">Baja</option>
         </select>
-        <button type="submit">Añadir Tarea</button>
+
+        <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white px-10 py-4 rounded-3xl font-medium transition-all active:scale-95">
+          Añadir Tarea
+        </button>
       </form>
 
-      <!-- Busca -->
-      <input type="text" id="search-input" placeholder="Buscar tareas...">
+      <!-- BUSCA -->
+      <input id="search-input" 
+             type="text" 
+             placeholder="Buscar tareas..." 
+             class="w-full mb-8 px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-3xl focus:outline-none focus:border-blue-500 transition-all">
 
-      <!-- Lista de tarefas  -->
-      <section id="task-list" class="task-list"></section>
+      <!-- LISTA DE TAREFAS -->
+      <section id="task-list" class="space-y-4"></section>
+
     </main>
   </div>
 
