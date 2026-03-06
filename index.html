@@ -1,107 +1,74 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PulseTasks</title>
-
-<link rel="stylesheet" href="output.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseTasks</title>
+  <link rel="stylesheet" href="output.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen font-sans antialiased">
 
-<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen font-[Inter]">
-
-<header class="bg-blue-600 dark:bg-blue-800 text-white p-5 flex justify-between items-center shadow">
-
-<h1 class="text-3xl font-bold">PulseTasks</h1>
-
-<button id="dark-mode-toggle" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition">
-🌙
-</button>
-
+<header class="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-800 dark:to-blue-900 text-white py-5 px-6 flex items-center justify-between shadow-lg">
+  <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">PulseTasks</h1>
+  <button id="dark-mode-toggle" class="btn bg-white/15 hover:bg-white/25 active:bg-white/30 text-white flex items-center gap-2 px-5 py-2.5 rounded-2xl transition-all duration-300">
+    <span id="theme-icon">🌙</span>
+    <span id="theme-text">Modo Oscuro</span>
+  </button>
 </header>
 
 <div class="flex min-h-[calc(100vh-80px)]">
+  <aside class="w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 p-6 hidden lg:block">
+    <h3 class="text-lg font-semibold mb-6 text-zinc-800 dark:text-zinc-200">Categorías</h3>
+    <ul class="space-y-2">
+      <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors duration-200 font-medium text-zinc-700 dark:text-zinc-300">Trabajo</li>
+      <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors duration-200 font-medium text-zinc-700 dark:text-zinc-300">Personal</li>
+      <li class="px-5 py-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition-colors duration-200 font-medium text-zinc-700 dark:text-zinc-300">Estudio</li>
+    </ul>
+  </aside>
 
-<aside class="w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 p-6 hidden lg:block">
+  <main class="flex-1 p-6 md:p-8 lg:p-10">
+    <form id="task-form" class="flex flex-col sm:flex-row flex-wrap gap-4 mb-10">
+      <input id="task-input" type="text" placeholder="Nueva tarea..." class="flex-1 min-w-[200px] px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl shadow-sm" required>
+      <select id="category-select" class="min-w-[140px] px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl shadow-sm">
+        <option value="Trabajo">Trabajo</option>
+        <option value="Personal">Personal</option>
+        <option value="Estudio">Estudio</option>
+      </select>
+      <select id="priority-select" class="min-w-[140px] px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl shadow-sm">
+        <option value="high">Alta</option>
+        <option value="medium">Media</option>
+        <option value="low">Baja</option>
+      </select>
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-md hover:shadow-lg px-5 py-3 rounded-3xl transition-all duration-300 min-w-[140px]">Añadir Tarea</button>
+    </form>
 
-<h3 class="text-lg font-semibold mb-4">Categorías</h3>
+    <input id="search-input" type="text" placeholder="Buscar tareas..." class="w-full mb-8 px-6 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-3xl shadow-sm">
 
-<ul class="space-y-2">
-
-<li class="hover:text-blue-500 cursor-pointer">Trabajo</li>
-<li class="hover:text-blue-500 cursor-pointer">Personal</li>
-<li class="hover:text-blue-500 cursor-pointer">Estudio</li>
-
-</ul>
-
-</aside>
-
-<main class="flex-1 p-8">
-
-<form id="task-form" class="flex gap-3 mb-6 flex-wrap">
-
-<input
-id="task-input"
-type="text"
-placeholder="Nueva tarea..."
-class="flex-1 p-3 border rounded-lg dark:bg-zinc-800 dark:border-zinc-700"
-required
->
-
-<select id="category-select" class="p-3 border rounded-lg dark:bg-zinc-800 dark:border-zinc-700">
-
-<option>Trabajo</option>
-<option>Personal</option>
-<option>Estudio</option>
-
-</select>
-
-<select id="priority-select" class="p-3 border rounded-lg dark:bg-zinc-800 dark:border-zinc-700">
-
-<option value="high">Alta</option>
-<option value="medium">Media</option>
-<option value="low">Baja</option>
-
-</select>
-
-<button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg transition">
-
-Añadir
-
-</button>
-
-</form>
-
-<input
-id="search-input"
-type="text"
-placeholder="Buscar tarea..."
-class="w-full p-3 mb-6 border rounded-lg dark:bg-zinc-800 dark:border-zinc-700"
-/>
-
-<section id="task-list" class="space-y-4"></section>
-
-</main>
-
+    <section id="task-list" class="space-y-4 md:space-y-5"></section>
+  </main>
 </div>
 
 <script src="app.js"></script>
 
 <script>
-
-const toggle = document.getElementById("dark-mode-toggle")
+const toggle = document.getElementById("dark-mode-toggle");
+const icon = document.getElementById("theme-icon");
+const text = document.getElementById("theme-text");
 
 toggle.addEventListener("click", () => {
+  document.documentElement.classList.toggle("dark");
+  icon.textContent = document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
+  text.textContent = document.documentElement.classList.contains("dark") ? "Modo Claro" : "Modo Oscuro";
+  localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+});
 
-document.documentElement.classList.toggle("dark")
-
-})
-
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+  document.documentElement.classList.add("dark");
+}
+icon.textContent = document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
+text.textContent = document.documentElement.classList.contains("dark") ? "Modo Claro" : "Modo Oscuro";
 </script>
 
 </body>
