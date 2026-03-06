@@ -1,11 +1,11 @@
 {
   "name": "pulsetasks",
   "version": "1.0.0",
-  "description": "PulseTasks - App de tarefas",
-  "main": "index.js",
- "scripts": {
-  "build:css": "npx tailwindcss -i ./input.css -o ./output.css --minify"
-},
+  "description": "PulseTasks - App de tareas",
+  "scripts": {
+    "build": "tailwindcss -i ./input.css -o ./output.css --minify",
+    "dev": "tailwindcss -i ./input.css -o ./output.css --watch"
+  },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.1",
     "tailwindcss": "^4.2.1"
