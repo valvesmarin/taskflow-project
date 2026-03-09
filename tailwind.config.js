@@ -1,13 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./app.js"
-  ],
-  darkMode: 'class',
-  theme: {
-    extend: {}
-  },
+  content: ["./index.html", "./app.js"],
+  theme: { extend: {} },
+  plugins: []
+}
   safelist: [
     // Base do site
     'dark:bg-zinc-950', 'dark:text-zinc-100', 'dark:bg-zinc-900', 
@@ -26,4 +22,3 @@ export default {
     'dark:hover:bg-red-900/30', 'dark:hover:bg-amber-900/30', 'dark:hover:bg-green-900/30',
     'opacity-75', 'line-through', 'text-zinc-500', 'dark:text-white'
   ]
-}
