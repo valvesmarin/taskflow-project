@@ -2,6 +2,107 @@ let tasks = [];
 let currentTaskId = null;
 let filter = { priority: '', category: '', sort: 'newest' };
 
+const translations = {
+  es: {
+    appTitle: "PulseTasks • Gestor de Tareas",
+    addButton: "Añadir",
+    taskPlaceholder: "¿Qué necesitas hacer hoy?",
+    allPriorities: "Todas las prioridades",
+    allCategories: "Todas las categorías",
+    sortNewest: "Más recientes",
+    sortOldest: "Más antiguas",
+    sortPriority: "Prioridad",
+    sortTitle: "Alfabético",
+    clearCompleted: "Limpiar completadas",
+    editTitle: "Editar Tarea",
+    saveButton: "Guardar",
+    cancelButton: "Cancelar",
+    emptyStateTitle: "Aún no hay tareas",
+    emptyStateMessage: "¡Añade tu primera tarea arriba!",
+    toastAdded: "Tarea añadida con éxito",
+    toastUpdated: "Tarea actualizada",
+    toastDeleted: "Tarea eliminada",
+    toastCleared: "Tareas completadas eliminadas",
+    confirmDelete: "¿Realmente deseas eliminar esta tarea?",
+    confirmClear: "¿Limpiar todas las tareas completadas?",
+    themeDark: "Modo Oscuro",
+    themeLight: "Claro",
+    priorityHigh: "Alta",
+    priorityMedium: "Media",
+    priorityLow: "Baja",
+    categoryWork: "Trabajo",
+    categoryPersonal: "Personal",
+    categoryStudy: "Estudio",
+    categoryHealth: "Salud",
+    categoryOthers: "Otros"
+  },
+  pt: {
+    appTitle: "PulseTasks • Gerenciador de Tarefas",
+    addButton: "Adicionar",
+    taskPlaceholder: "O que precisa ser feito hoje?",
+    allPriorities: "Todas as prioridades",
+    allCategories: "Todas as categorias",
+    sortNewest: "Mais recentes",
+    sortOldest: "Mais antigas",
+    sortPriority: "Prioridade",
+    sortTitle: "Alfabético",
+    clearCompleted: "Limpar concluídas",
+    editTitle: "Editar Tarefa",
+    saveButton: "Salvar",
+    cancelButton: "Cancelar",
+    emptyStateTitle: "Ainda não há tarefas",
+    emptyStateMessage: "Adicione sua primeira tarefa acima!",
+    toastAdded: "Tarefa adicionada com sucesso",
+    toastUpdated: "Tarefa atualizada",
+    toastDeleted: "Tarefa excluída",
+    toastCleared: "Tarefas concluídas removidas",
+    confirmDelete: "Deseja realmente excluir esta tarefa?",
+    confirmClear: "Limpar todas as tarefas concluídas?",
+    themeDark: "Modo Escuro",
+    themeLight: "Claro",
+    priorityHigh: "Alta",
+    priorityMedium: "Média",
+    priorityLow: "Baixa",
+    categoryWork: "Trabalho",
+    categoryPersonal: "Pessoal",
+    categoryStudy: "Estudo",
+    categoryHealth: "Saúde",
+    categoryOthers: "Outros"
+  },
+  en: {
+    appTitle: "PulseTasks • Task Manager",
+    addButton: "Add",
+    taskPlaceholder: "What needs to be done today?",
+    allPriorities: "All priorities",
+    allCategories: "All categories",
+    sortNewest: "Newest first",
+    sortOldest: "Oldest first",
+    sortPriority: "Priority",
+    sortTitle: "Alphabetical",
+    clearCompleted: "Clear completed",
+    editTitle: "Edit Task",
+    saveButton: "Save",
+    cancelButton: "Cancel",
+    emptyStateTitle: "No tasks yet",
+    emptyStateMessage: "Add your first task above!",
+    toastAdded: "Task added successfully",
+    toastUpdated: "Task updated",
+    toastDeleted: "Task deleted",
+    toastCleared: "Completed tasks cleared",
+    confirmDelete: "Do you really want to delete this task?",
+    confirmClear: "Clear all completed tasks?",
+    themeDark: "Dark Mode",
+    themeLight: "Light Mode",
+    priorityHigh: "High",
+    priorityMedium: "Medium",
+    priorityLow: "Low",
+    categoryWork: "Work",
+    categoryPersonal: "Personal",
+    categoryStudy: "Study",
+    categoryHealth: "Health",
+    categoryOthers: "Others"
+  }
+};
 // ================================================
 // CONFIGURACIONES Y ESTILOS
 // ================================================
@@ -11,6 +112,44 @@ const priorityStyles = {
   medium: { badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400', card: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800' },
   low:    { badge: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', card: 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' }
 };
+
+let currentLang = localStorage.getItem('lang') || 'es';
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+
+  // Atualiza textos dinâmicos
+  document.querySelector('title').textContent = translations[lang].title;
+  document.getElementById('task-input').placeholder = translations[lang].placeholder;
+  document.querySelector('#task-form button').textContent = translations[lang].addTask;
+  document.querySelector('#filter-priority option[value=""]').textContent = translations[lang].allPriorities;
+  // ... atualize todos os outros elementos que precisam de texto
+
+  // Atualiza o estado vazio
+  document.querySelector('#empty-state h2').textContent = translations[lang].emptyTitle;
+  document.querySelector('#empty-state p').textContent = translations[lang].emptyMessage;
+
+  // Atualiza botões do modal
+  document.querySelector('#edit-modal h2').textContent = translations[lang].editTask;
+  document.querySelector('#cancel-edit').textContent = translations[lang].cancel;
+  document.querySelector('#edit-form button[type="submit"]').textContent = translations[lang].save;
+
+  // Atualiza botão de tema (se necessário)
+  updateThemeButton(document.documentElement.classList.contains('dark'));
+  
+  // Re-renderiza tarefas para atualizar badges e textos dinâmicos
+  renderTasks();
+}
+document.getElementById('language-select').addEventListener('change', e => {
+  setLanguage(e.target.value);
+});
+
+// Ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('language-select').value = currentLang;
+  setLanguage(currentLang);
+});
 
 /** Carga tareas y tema desde localStorage */
 function init() {
@@ -28,8 +167,9 @@ function init() {
 
 /** Actualiza botón de tema */
 function updateThemeButton(isDark) {
+  const t = translations[currentLang];
   document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
-  document.getElementById('theme-text').textContent = isDark ? 'Claro' : 'Oscuro';
+  document.getElementById('theme-text').textContent = isDark ? t.themeLight : t.themeDark;
 }
 
 /** Guarda tareas */
@@ -67,10 +207,12 @@ function populateCategories() {
 }
 
 /** Crea elemento de tarea */
-function createTaskElement(task) {
-  const div = document.createElement('div');
-  const prio = priorityStyles[task.priority] || priorityStyles.low;
+const t = translations[currentLang];
 
+const priorityText = task.priority === 'high' ? t.priorityHigh :
+                     task.priority === 'medium' ? t.priorityMedium :
+                     t.priorityLow;
+function createTaskElement(task) {
   div.className = `task-card ${prio.card} ${task.completed ? 'opacity-60' : ''}`;
   div.draggable = true;
   div.dataset.id = task.id;
@@ -273,7 +415,59 @@ document.getElementById('filter-category').addEventListener('change', e => {
 document.getElementById('sort-select').addEventListener('change', e => {
   filter.sort = e.target.value;
   renderTasks();
+})
+
+function applyLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+
+  const t = translations[lang];
+
+  // Atualiza elementos fixos no HTML
+  document.title = t.appTitle;
+  document.querySelector('#task-input').placeholder = t.taskPlaceholder;
+  document.querySelector('#task-form button').textContent = t.addButton;
+
+  // Select de filtro de prioridade
+  const prioOptions = document.querySelectorAll('#filter-priority option');
+  prioOptions[0].textContent = t.allPriorities;
+  prioOptions[1].textContent = t.priorityHigh;
+  prioOptions[2].textContent = t.priorityMedium;
+  prioOptions[3].textContent = t.priorityLow;
+
+  // Select de ordenação
+  const sortOptions = document.querySelectorAll('#sort-select option');
+  sortOptions[0].textContent = t.sortNewest;
+  sortOptions[1].textContent = t.sortOldest;
+  sortOptions[2].textContent = t.sortPriority;
+  sortOptions[3].textContent = t.sortTitle;
+
+  // Botão limpar concluídas
+  document.querySelector('#clear-completed').textContent = t.clearCompleted;
+
+  // Modal de edição
+  document.querySelector('#edit-modal h2').textContent = t.editTitle;
+  document.querySelector('#cancel-edit').textContent = t.cancelButton;
+  document.querySelector('#edit-form button[type="submit"]').textContent = t.saveButton;
+
+  // Estado vazio
+  document.querySelector('#empty-state h2').textContent = t.emptyStateTitle;
+  document.querySelector('#empty-state p').textContent = t.emptyStateMessage;
+
+  // Botão de tema (precisa atualizar também)
+  updateThemeButton(document.documentElement.classList.contains('dark'));
+
+  // Re-renderiza as tarefas para atualizar badges e textos dinâmicos
+  renderTasks();
+}
+
+document.getElementById('lang-select').value = currentLang;
+document.getElementById('lang-select').addEventListener('change', (e) => {
+  applyLanguage(e.target.value);
 });
+
+// Aplicar idioma inicial
+applyLanguage(currentLang);
 
 /** Iniciar */
 init();
