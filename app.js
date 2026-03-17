@@ -3,6 +3,9 @@ const translations = {
     appTitle: "PulseTasks • Gestor de Tareas",
     addButton: "Añadir",
     taskPlaceholder: "¿Qué necesitas hacer hoy?",
+    totalTasks: "Total de tareas",
+    completedTasks: "Completadas",
+    pendingTasks: "Pendientes",
     allPriorities: "Todas las prioridades",
     priorityHigh: "Alta",
     priorityMedium: "Media",
@@ -27,6 +30,9 @@ const translations = {
     appTitle: "PulseTasks • Gerenciador de Tarefas",
     addButton: "Adicionar",
     taskPlaceholder: "O que precisa ser feito hoje?",
+    totalTasks: "Total de tarefas",
+    completedTasks: "Concluídas",
+    pendingTasks: "Pendentes",
     allPriorities: "Todas as prioridades",
     priorityHigh: "Alta",
     priorityMedium: "Média",
@@ -51,6 +57,9 @@ const translations = {
     appTitle: "PulseTasks • Task Manager",
     addButton: "Add",
     taskPlaceholder: "What needs to be done today?",
+    totalTasks: "Total tasks",
+    completedTasks: "Completed",
+    pendingTasks: "Pending",
     allPriorities: "All priorities",
     priorityHigh: "High",
     priorityMedium: "Medium",
@@ -90,6 +99,11 @@ function applyLanguage() {
   document.getElementById('clear-completed').textContent = t('clearCompleted');
   document.getElementById('mark-all-completed').textContent = t('markAllCompleted');
 
+  // Atualiza opções de prioridade
+  document.querySelector('#priority-select option[value="high"]').textContent = t('priorityHigh');
+  document.querySelector('#priority-select option[value="medium"]').textContent = t('priorityMedium');
+  document.querySelector('#priority-select option[value="low"]').textContent = t('priorityLow');
+
   renderTasks();
   updateStats();
 }
@@ -108,16 +122,16 @@ function updateStats() {
 
   document.getElementById('stats').innerHTML = `
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-md text-center">
-      <p class="text-sm text-zinc-500">${t('totalTasks') || 'Total'}</p>
-      <p class="text-4xl font-bold text-indigo-600">${total}</p>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400">${t('totalTasks')}</p>
+      <p class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">${total}</p>
     </div>
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-md text-center">
-      <p class="text-sm text-green-600">${t('completedTasks') || 'Completadas'}</p>
-      <p class="text-4xl font-bold text-green-600">${completed}</p>
+      <p class="text-sm text-green-600 dark:text-green-400">${t('completedTasks')}</p>
+      <p class="text-4xl font-bold text-green-600 dark:text-green-400">${completed}</p>
     </div>
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-md text-center">
-      <p class="text-sm text-amber-600">${t('pendingTasks') || 'Pendentes'}</p>
-      <p class="text-4xl font-bold text-amber-600">${pending}</p>
+      <p class="text-sm text-amber-600 dark:text-amber-400">${t('pendingTasks')}</p>
+      <p class="text-4xl font-bold text-amber-600 dark:text-amber-400">${pending}</p>
     </div>
   `;
 }
@@ -168,7 +182,7 @@ function renderTasks() {
     div.innerHTML = `
       <input type="checkbox" ${task.completed ? 'checked' : ''} class="w-6 h-6 accent-indigo-600">
       <div class="flex-1">
-        <p class="text-xl font-medium ${task.completed ? 'line-through text-zinc-500' : ''}">${task.title}</p>
+        <p class="text-xl font-medium ${task.completed ? 'line-through text-zinc-500 dark:text-zinc-400' : ''}">${task.title}</p>
         <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">${catText}</p>
       </div>
       <span class="px-7 py-2.5 text-sm font-semibold rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">
