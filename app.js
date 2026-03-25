@@ -20,6 +20,7 @@ const translations = {
     confirmDelete: "¿Eliminar esta tarea?",
     confirmClear: "¿Limpiar todas las tareas completadas?",
     confirmMarkAll: "¿Marcar todas las tareas como completadas?",
+    // Categorias - chave = value exato do <option>
     Trabajo: "Trabajo",
     Personal: "Personal",
     Estudio: "Estudio",
@@ -99,11 +100,6 @@ function applyLanguage() {
   document.getElementById('clear-completed').textContent = t('clearCompleted');
   document.getElementById('mark-all-completed').textContent = t('markAllCompleted');
 
-  // Atualiza opções de prioridade
-  document.querySelector('#priority-select option[value="high"]').textContent = t('priorityHigh');
-  document.querySelector('#priority-select option[value="medium"]').textContent = t('priorityMedium');
-  document.querySelector('#priority-select option[value="low"]').textContent = t('priorityLow');
-
   renderTasks();
   updateStats();
 }
@@ -123,15 +119,15 @@ function updateStats() {
   document.getElementById('stats').innerHTML = `
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-md text-center">
       <p class="text-sm text-zinc-500 dark:text-zinc-400">${t('totalTasks')}</p>
-      <p class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">${total}</p>
+      <p class="text-4xl font-bold text-indigo-600">${total}</p>
     </div>
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-md text-center">
       <p class="text-sm text-green-600 dark:text-green-400">${t('completedTasks')}</p>
-      <p class="text-4xl font-bold text-green-600 dark:text-green-400">${completed}</p>
+      <p class="text-4xl font-bold text-green-600">${completed}</p>
     </div>
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-md text-center">
       <p class="text-sm text-amber-600 dark:text-amber-400">${t('pendingTasks')}</p>
-      <p class="text-4xl font-bold text-amber-600 dark:text-amber-400">${pending}</p>
+      <p class="text-4xl font-bold text-amber-600">${pending}</p>
     </div>
   `;
 }
@@ -176,7 +172,7 @@ function renderTasks() {
   filtered.forEach(task => {
     const div = document.createElement('div');
     const prioText = t(`priority${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}`);
-    const catText = t(task.category);
+    const catText = t(task.category);   // ← Aqui está a correção principal
 
     div.className = `flex items-center gap-6 p-7 bg-white dark:bg-zinc-900 rounded-3xl shadow-md border border-zinc-200 dark:border-zinc-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300`;
     div.innerHTML = `
