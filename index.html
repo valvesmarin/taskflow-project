@@ -6,6 +6,8 @@
   <title>PulseTasks • Gestor de Tareas</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -21,8 +23,25 @@
   </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 600ms;
+    }
+
+    .task-card {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .task-card.dragging {
+      opacity: 0.4;
+      transform: scale(0.95);
+    }
+  </style>
 </head>
-<body class="min-h-screen font-sans antialiased text-zinc-900 dark:text-zinc-100 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-950 dark:to-zinc-900">
+<body class="min-h-screen font-sans antialiased text-zinc-900 dark:text-zinc-100 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-950 dark:to-zinc-900 transition-colors duration-600 ease-in-out">
 
   <header class="sticky top-0 z-50 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border-b border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
     <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
@@ -38,7 +57,7 @@
           <option value="en">English</option>
         </select>
 
-        <button id="theme-toggle" class="flex items-center gap-3 px-6 py-3 bg-white dark:bg-zinc-800 rounded-full shadow-md hover:shadow-lg transition-all active:scale-95">
+        <button id="theme-toggle" class="flex items-center gap-3 px-6 py-3 bg-white dark:bg-zinc-800 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all active:scale-95">
           <span id="theme-icon">🌙</span>
           <span id="theme-text">Modo Oscuro</span>
         </button>
@@ -47,49 +66,23 @@
   </header>
 
   <main class="max-w-7xl mx-auto px-6 py-12">
-    <!-- Estatísticas -->
     <div id="stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"></div>
 
-    <!-- Formulário -->
     <form id="task-form" class="bg-white dark:bg-zinc-900/90 backdrop-blur-md p-10 rounded-3xl shadow-2xl border border-zinc-200/30 dark:border-zinc-800/30 mb-12">
       <div class="flex flex-col md:flex-row gap-5">
         <input id="task-input" type="text" placeholder="¿Qué necesitas hacer hoy?" required class="flex-1 px-7 py-5 text-lg bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none transition">
-        
-        <select id="category-select" class="px-7 py-5 bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none">
-          <option value="Trabajo">Trabajo</option>
-          <option value="Personal">Personal</option>
-          <option value="Estudio">Estudio</option>
-          <option value="Salud">Salud</option>
-          <option value="Otros">Otros</option>
-        </select>
-
-        <select id="priority-select" class="px-7 py-5 bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none">
-          <option value="high">Alta</option>
-          <option value="medium">Media</option>
-          <option value="low">Baja</option>
-        </select>
-
+        <select id="category-select" class="px-7 py-5 bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none"></select>
+        <select id="priority-select" class="px-7 py-5 bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none"></select>
         <button type="submit" class="px-12 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg transition-all active:scale-95">
           Añadir
         </button>
       </div>
     </form>
 
-    <!-- Filtros + Botões de ação -->
     <div class="flex flex-wrap gap-5 mb-12">
-      <select id="filter-priority" class="px-6 py-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-2xl">
-        <option value="">Todas las prioridades</option>
-      </select>
-
-      <select id="filter-category" class="px-6 py-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-2xl">
-        <option value="">Todas las categorías</option>
-      </select>
-
-      <select id="filter-status" class="px-6 py-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-2xl">
-        <option value="">Todos los estados</option>
-        <option value="pending">Pendientes</option>
-        <option value="completed">Completadas</option>
-      </select>
+      <select id="filter-priority" class="px-6 py-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-2xl"></select>
+      <select id="filter-category" class="px-6 py-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-2xl"></select>
+      <select id="filter-status" class="px-6 py-3 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-2xl"></select>
 
       <button id="clear-completed" class="px-8 py-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 transition-all font-medium shadow-sm hover:shadow-md">
         Limpiar completadas
@@ -109,7 +102,32 @@
     </div>
   </main>
 
-  <div id="toast" class="hidden fixed bottom-10 right-10 px-8 py-5 rounded-3xl shadow-2xl text-white font-medium transition-all duration-400"></div>
+  <!-- MODAL -->
+  <div id="edit-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-lg mx-4 p-8">
+      <h2 class="text-2xl font-semibold mb-6" id="modal-title">Editar Tarea</h2>
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium mb-2" id="title-label">Título da tarefa</label>
+          <input id="edit-title" type="text" class="w-full px-5 py-4 bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2" id="category-label">Categoria</label>
+            <select id="edit-category" class="w-full px-5 py-4 bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none"></select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2" id="priority-label">Prioridade</label>
+            <select id="edit-priority" class="w-full px-5 py-4 bg-zinc-50 dark:bg-zinc-800 border border-transparent rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900/30 outline-none"></select>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-8">
+        <button id="cancel-edit" class="flex-1 py-4 font-medium rounded-2xl border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">Cancelar</button>
+        <button id="save-edit" class="flex-1 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-2xl hover:from-indigo-700 hover:to-purple-700 transition">Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
